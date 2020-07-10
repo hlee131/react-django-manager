@@ -11,16 +11,24 @@ class Alerts extends Component {
 
   componentDidUpdate(prevProps) {
     const { error, alert, message } = this.props;
-    if (error != prevProps.error && error.msg !== undefined) {
-      if (error.msg.name) {
-        alert.error(`Name: ${error.msg.name.join()}`);
-      }
-      if (error.msg.email) {
-        alert.error(`Email: ${error.msg.email.join()}`);
-      }
-      if (error.msg.message) {
-        alert.error(`Email: ${error.msg.message.join()}`);
-      }
+    if (error != prevProps.error) {
+      try {
+        if (error.msg.name) {
+          alert.error(`Name: ${error.msg.name.join()}`);
+        }
+        if (error.msg.email) {
+          alert.error(`Email: ${error.msg.email.join()}`);
+        }
+        if (error.msg.message) {
+          alert.error(`Message: ${error.msg.message.join()}`);
+        }
+        if (error.msg.non_field_errors) {
+          alert.error(error.msg.non_field_errors.join());
+        }
+        if (error.msg.username) {
+          alert.error(error.msg.username.join());
+        }
+      } catch {}
     }
 
     if (message !== prevProps.message) {
@@ -29,6 +37,9 @@ class Alerts extends Component {
       }
       if (message.addLead) {
         alert.success(message.addLead);
+      }
+      if (message.passwordNotMatch) {
+        alert.error(message.passwordNotMatch);
       }
     }
   }
