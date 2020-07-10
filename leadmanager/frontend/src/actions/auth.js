@@ -13,7 +13,6 @@ import {
 } from "./types";
 
 // Check Token and Load user
-// * Where is getState from?
 export const loadUser = () => (dispatch, getState) => {
   // User loading
   dispatch({
