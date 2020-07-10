@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import ReactDOM from "react-dom";
 import {
   HashRouter as Router,
@@ -28,32 +28,30 @@ const alertOptions = {
   position: "bottom right",
 };
 
-class App extends React.Component {
-  componentDidMount() {
+function App(props) {
+  useEffect(() => {
     store.dispatch(loadUser());
-  }
+  }, []);
 
-  render() {
-    return (
-      <Provider store={store}>
-        <AlertProvider template={AlertTemplate} {...alertOptions}>
-          <Router>
-            <Fragment>
-              <Header />
-              <Alerts />
-              <div className="container">
-                <Switch>
-                  <PrivateRoute exact path="/" component={Dashboard} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/login" component={Login} />
-                </Switch>
-              </div>
-            </Fragment>
-          </Router>
-        </AlertProvider>
-      </Provider>
-    );
-  }
+  return (
+    <Provider store={store}>
+      <AlertProvider template={AlertTemplate} {...alertOptions}>
+        <Router>
+          <Fragment>
+            <Header />
+            <Alerts />
+            <div className="container">
+              <Switch>
+                <PrivateRoute exact path="/" component={Dashboard} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+              </Switch>
+            </div>
+          </Fragment>
+        </Router>
+      </AlertProvider>
+    </Provider>
+  );
 }
 
 ReactDOM.render(<App />, document.getElementById("app"));
