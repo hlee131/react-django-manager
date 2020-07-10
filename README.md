@@ -6,7 +6,7 @@ This project is made by following [Traversy Media's tutorial](https://www.youtub
 
 ### WIP:
 
-1. Header
+1. App
 
 ### Done:
 
@@ -14,6 +14,9 @@ This project is made by following [Traversy Media's tutorial](https://www.youtub
 2. Register Component
 3. Private Route
 4. Alerts
+5. Header
+6. Form
+7. Leads
 
 ### Misc:
 

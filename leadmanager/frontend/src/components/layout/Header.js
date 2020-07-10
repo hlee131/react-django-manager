@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/auth";
 
 function Header(props) {
-  // static propTypes = {
-  //   auth: PropTypes.object.isRequired,
-  //   logout: PropTypes.func.isRequired,
-  // };
+  // Redux store state
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  const { isAuthenticated, user } = this.props.auth;
   const authLinks = (
     <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
       <span className="navbar-text mr-3">
@@ -18,7 +15,7 @@ function Header(props) {
       </span>
       <li className="nav-item">
         <button
-          onClick={this.props.logout}
+          onClick={dispatch.bind(this, logout())}
           className="nav-link btn btn-info btn-sm text-light"
         >
           Logout
@@ -67,6 +64,4 @@ function Header(props) {
   );
 }
 
-const mapStateToProps = (state) => ({ auth: state.auth });
-
-export default connect(mapStateToProps, { logout })(Header);
+export default Header;

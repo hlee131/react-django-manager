@@ -1,5 +1,6 @@
 import axios from "axios";
 import { returnErrors } from "./messages";
+import { useSelector } from "react-redux";
 
 import {
   USER_LOADED,
@@ -98,6 +99,7 @@ export const register = ({ username, password, email }) => (dispatch) => {
 };
 
 export const logout = () => (dispatch, getState) => {
+  console.log("logged out");
   axios
     .post("/api/auth/logout", null, tokenConfig(getState))
     .then((res) => {
@@ -112,7 +114,6 @@ export const logout = () => (dispatch, getState) => {
 
 // Setup token
 export const tokenConfig = (getState) => {
-  // Get token from state
   const token = getState().auth.token;
 
   // Headers
