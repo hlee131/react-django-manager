@@ -1,17 +1,32 @@
-import React, { Component, Fragment } from "react";
+import React, { useEffect, Fragment, useRef } from "react";
 import { withAlert } from "react-alert";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
-class Alerts extends Component {
-  static propTypes = {
-    error: PropTypes.object.isRequired,
-    message: PropTypes.object.isRequired,
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
+function Alerts(props) {
+  // Define store states
+  const error = useSelector((state) => state.errors);
+  const message = useSelector((state) => state.messages);
+
+  // previous states
+  const prevState = {
+    error: usePrevious(error),
+    message: usePrevious(message),
   };
 
-  componentDidUpdate(prevProps) {
-    const { error, alert, message } = this.props;
-    if (error != prevProps.error) {
+  // Define alert
+  const alert = props.alert;
+
+  // TODO: More efficient way?
+  useEffect(() => {
+    if (error != prevState.error) {
       try {
         if (error.msg.name) {
           alert.error(`Name: ${error.msg.name.join()}`);
@@ -31,7 +46,7 @@ class Alerts extends Component {
       } catch {}
     }
 
-    if (message !== prevProps.message) {
+    if (message !== prevState.message) {
       if (message.deleteLead) {
         alert.success(message.deleteLead);
       }
@@ -42,16 +57,9 @@ class Alerts extends Component {
         alert.error(message.passwordNotMatch);
       }
     }
-  }
+  }, [error, message]);
 
-  render() {
-    return <Fragment></Fragment>;
-  }
+  return <Fragment></Fragment>;
 }
 
-const mapStateToProps = (state) => ({
-  error: state.errors,
-  message: state.messages,
-});
-
-export default connect(mapStateToProps)(withAlert()(Alerts));
+export default withAlert()(Alerts);
